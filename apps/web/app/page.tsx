@@ -1,12 +1,26 @@
-import { Button } from "@workspace/ui/components/button"
+import { LandingPage } from "@/components/pages/landing-page";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function Page() {
-  return (
-    <div className="flex items-center justify-center min-h-svh">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">Hello World</h1>
-        <Button size="sm">Button</Button>
-      </div>
-    </div>
-  )
+const getSession = async () => {
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
+    return session;
+}
+
+export default async function Home() {
+
+    const session = await getSession();
+
+    if(session?.session.userId){
+        redirect('/home');
+    }
+
+    return (
+        <main>
+            <LandingPage />
+        </main>
+    )
 }

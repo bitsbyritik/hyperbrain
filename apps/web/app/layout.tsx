@@ -1,5 +1,3 @@
-import { Geist, Geist_Mono } from "next/font/google";
-
 import "@workspace/ui/globals.css";
 import { Providers } from "@/components/providers";
 import { Toaster } from "sonner";
@@ -17,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={cn(
           "min-h-screen bg-background text-foreground antialiased max-w-full overflow-x-hidden",
