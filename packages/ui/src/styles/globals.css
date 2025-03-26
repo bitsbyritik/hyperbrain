@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --foreground: 0 0% 98%;
+    --foreground: 0 0% 95%;
     --background: 213, 24.3%, 7.3%;
 
     --card: 222 15.2% 12.9%;
@@ -33,11 +33,27 @@
     --ring: 0 0% 83.1%;
 
     --radius: 0.5rem;
+
+    --sidebar-background: 213, 24.3%, 7.3%;
+
+    --sidebar-foreground: 223 28.9% 73.5%;
+
+    --sidebar-primary: 213, 24.3%, 7.3%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 219, 13.5%, 20.4%;
+
+    --sidebar-accent-foreground: 0 0% 98%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
     --background: 0 0% 98%;
-    --foreground:  213, 22%, 8%;
+    --foreground: 213, 22%, 8%;
 
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -69,6 +85,14 @@
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -77,14 +101,15 @@
   color: hsl(var(--foreground));
 }
 
-html, body {
+html,
+body {
   font-family: "Inter", sans-serif !important;
 }
 
 .dumy {
   color: hsl(0 0% 98%);
-  color: rgb(38, 38, 38)
-    /* @apply to-purple-500 */
+  color: rgb(38, 38, 38);
+  /* @apply to-purple-500 */
 }
 
 ::-webkit-scrollbar {
@@ -102,9 +127,27 @@ html, body {
 }
 
 .gradient {
-  background: conic-gradient(from 230.29deg at 51.63% 52.16%, rgb(36, 0, 255) 0deg, rgb(0, 135, 255) 67.5deg, rgb(108, 39, 157) 198.75deg, rgb(24, 38, 163) 251.25deg, rgb(54, 103, 196) 301.88deg, rgb(105, 30, 255) 360deg);
+  background: conic-gradient(
+    from 230.29deg at 51.63% 52.16%,
+    rgb(36, 0, 255) 0deg,
+    rgb(0, 135, 255) 67.5deg,
+    rgb(108, 39, 157) 198.75deg,
+    rgb(24, 38, 163) 251.25deg,
+    rgb(54, 103, 196) 301.88deg,
+    rgb(105, 30, 255) 360deg
+  );
 }
 
 .not-found {
   box-shadow: rgba(150, 18, 226, 0.3) 5px 5px;
 }
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
