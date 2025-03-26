@@ -14,15 +14,20 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
+  id            String   @id @default(uuid())
   name          String
-  email         String    @unique
+  email         String   @unique
   emailVerified Boolean
   image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions       Session[]
+  accounts       Account[]
+  links          Links[]
+  collections    Collections[]
+  spaces         Space[]
+  followedSpaces SpaceFollower[]
 
   @@map("user")
 }
@@ -38,7 +43,6 @@ model Session {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
- 
   @@map("session")
 }
 
@@ -70,4 +74,82 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Links {
+  id           String       @id @default(uuid())
+  url          String       @unique
+  title        String?
+  description  String?
+  image        String?
+  metadata     Json
+  userId       String
+  user         User         @relation(fields: [userId], references: [id])
+  collectionId String?
+  collection   Collections? @relation(fields: [collectionId], references: [id])
+  spaceId      String?
+  space        Space?       @relation(fields: [spaceId], references: [id])
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  sessionId    String?
+  linksOnTag   LinksOnTag[]
+}
+
+model Collections {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  links       Links[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Space {
+  id          String          @id @default(uuid())
+  name        String
+  handle      String          @unique
+  description String?
+  visibility  Visibility      @default(PUBLIC)
+  ownerId     String
+  owner       User            @relation(fields: [ownerId], references: [id])
+  followers   SpaceFollower[]
+  links       Links[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model SpaceFollower {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  Space     Space    @relation(fields: [spaceId], references: [id])
+  spaceId   String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, spaceId])
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  links LinksOnTag[]
+}
+
+model LinksOnTag {
+  linkId String
+  tagId  String
+  tag    Tag    @relation(fields: [tagId], references: [id])
+  link   Links  @relation(fields: [linkId], references: [id])
+
+  @@id([linkId, tagId])
+}
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
 }
