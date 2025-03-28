@@ -99,6 +99,7 @@ model Collections {
   id          String   @id @default(uuid())
   name        String
   description String?
+  image       String?
   ownerId     String
   owner       User     @relation(fields: [ownerId], references: [id])
   links       Links[]
@@ -110,6 +111,7 @@ model Space {
   id          String          @id @default(uuid())
   name        String
   handle      String          @unique
+  image       String?
   description String?
   visibility  Visibility      @default(PUBLIC)
   ownerId     String
