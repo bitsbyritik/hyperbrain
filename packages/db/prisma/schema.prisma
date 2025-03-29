@@ -83,7 +83,7 @@ model Links {
   description  String?
   thoughts     String?
   image        String?
-  metadata     Json
+  metadata     Json?
   userId       String
   user         User         @relation(fields: [userId], references: [id])
   collectionId String?

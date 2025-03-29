@@ -24,8 +24,8 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@workspace/ui/components/sidebar";
-import { useUser } from "@/hooks/useUser";
 import { useSession } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 const navData = {
   navMain: [
@@ -78,6 +78,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenuButton
                 tooltip="Quick create"
                 className="w-full rounded-lg bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
+                onClick={() => {
+                  redirect("/create");
+                }}
               >
                 <CirclePlusIcon className="shrink-0" />
                 <span>Quick Create</span>
