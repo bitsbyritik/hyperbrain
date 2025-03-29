@@ -3,6 +3,7 @@ import prisma from "@workspace/db/client";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { linkSchema } from "@workspace/schema/zod";
+import { fetchMetadata } from "../_utils/fetchMetadata";
 
 export async function GET() {
   try {
@@ -73,10 +74,23 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const metaData = await fetchMetadata(url);
+
+    if (metaData) {
+      await prisma.links.update({
+        where: {
+          userId: userId,
+          id: newLink.id,
+        },
+        data: {
+          metadata: metaData,
+        },
+      });
+    }
+
     return NextResponse.json({
       messgae: "successfully created",
       status: 200,
-      newLink,
     });
   } catch (err) {
     console.error(err);
