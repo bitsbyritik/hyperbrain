@@ -25,7 +25,7 @@ import {
   SidebarTrigger,
 } from "@workspace/ui/components/sidebar";
 import { useSession } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 
 const navData = {
   navMain: [
@@ -68,6 +68,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     avatar: session?.user?.image || "U",
   };
 
+  const pathname = usePathname();
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -90,7 +92,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navData.navMain} />
+        <NavMain items={navData.navMain} pathname={pathname} />
         <NavSecondary items={navData.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

@@ -1,13 +1,9 @@
-import { Card, CardContent, CardTitle } from "@workspace/ui/components/card";
+import { HomeLandingPage } from "@/components/pages/Home-page";
 
 export default async function HomePage() {
   return (
-    <div>
-      <Card className="w-96 h-96">
-        <CardTitle>Test</CardTitle>
-        <CardContent>Testing...</CardContent>
-      </Card>
+    <div className="p-4">
+      <HomeLandingPage />
     </div>
   );
 }
-

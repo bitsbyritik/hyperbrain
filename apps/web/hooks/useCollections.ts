@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface CollectionsProps {
   id: string;
@@ -40,5 +40,7 @@ export const useCollections = () => {
     fetchCollections();
   }, []);
 
-  return { collections, loading, error };
+  const memoizdCollection = useMemo(() => collections, [collections]);
+
+  return { collections: memoizdCollection, loading, error };
 };

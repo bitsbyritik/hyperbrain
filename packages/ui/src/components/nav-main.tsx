@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  CirclePlusIcon,
-  MailIcon,
-  PlusCircleIcon,
-  PlusIcon,
-  type LucideIcon,
-} from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 
-import { Button } from "@workspace/ui/components/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -19,12 +12,14 @@ import {
 
 export function NavMain({
   items,
+  pathname,
 }: {
   items: {
     title: string;
     url: string;
     icon?: LucideIcon;
   }[];
+  pathname: string;
 }) {
   return (
     <SidebarGroup>
@@ -34,10 +29,12 @@ export function NavMain({
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
                 tooltip={item.title}
-                className="hover:bg-[#2D323B] transition-colors gap-3"
+                className={`hover:bg-[#2D323B] transition-colors gap-3 ${pathname === item.url ? "bg-[#2D323B] text-foreground" : ""}`}
               >
                 {item.icon && <item.icon />}
-                <span>{item.title}</span>
+                <a href={item.url}>
+                  <span>{item.title}</span>
+                </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

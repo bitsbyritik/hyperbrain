@@ -24,9 +24,14 @@ export async function GET() {
       where: {
         userId: userId,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
-    return { links };
+    return NextResponse.json({
+      links,
+    });
   } catch (err) {
     console.error(err);
     return NextResponse.json({
