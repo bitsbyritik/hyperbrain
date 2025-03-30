@@ -28,6 +28,8 @@ model User {
   collections    Collections[]
   spaces         Space[]
   followedSpaces SpaceFollower[]
+  likedLink     LikedLinks[]
+  bookmark      Bookmarks[]
 
   @@map("user")
 }
@@ -94,6 +96,8 @@ model Links {
   updatedAt    DateTime     @updatedAt
   sessionId    String?
   linksOnTag   LinksOnTag[]
+  like        LikedLinks[]
+  bookmark    Bookmarks[]
 }
 
 model Collections {
@@ -132,6 +136,26 @@ model SpaceFollower {
   createdAt DateTime @default(now())
 
   @@unique([userId, spaceId])
+}
+
+model LikedLinks {
+  id        String   @id @default(uuid())
+  linkId    String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  Links     Links    @relation(fields: [linkId], references: [id])
+
+  @@unique([linkId, userId])
+}
+
+model Bookmarks {
+  id     String @id @default(uuid())
+  linkId String
+  userId String
+  link   Links  @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Tag {
