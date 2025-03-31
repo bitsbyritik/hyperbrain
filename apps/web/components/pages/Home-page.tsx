@@ -42,7 +42,11 @@ export const HomeLandingPage = () => {
               </div>
             </CardTitle>
             <div className="my-2 font-medium line-clamp-2 text-ellipsis overflow-hidden h-12">
-              <span>{link.metadata?.open_graph.title || link.title}</span>
+              <span>
+                {link.metadata?.open_graph?.title ||
+                  link.title ||
+                  "No title available"}
+              </span>
             </div>
 
             <p className="text-sm text-gray-600 line-clamp-3 text-ellipsis overflow-hidden h-14">
