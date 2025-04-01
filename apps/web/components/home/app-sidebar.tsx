@@ -35,12 +35,12 @@ const navData = {
       icon: HomeIcon,
     },
     {
-      title: "Links",
+      title: "My Links",
       url: "/mylinks",
       icon: Link,
     },
     {
-      title: "Collections",
+      title: "My Collections",
       url: "/mycollections",
       icon: FolderIcon,
     },

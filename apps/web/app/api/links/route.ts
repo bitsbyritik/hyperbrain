@@ -27,7 +27,19 @@ export async function GET() {
       orderBy: {
         createdAt: "desc",
       },
+      include: {
+        bookmark: {
+          where: {
+            userId: userId,
+          },
+          select: {
+            linkId: true,
+          },
+        },
+      },
     });
+
+    console.log(links);
 
     return NextResponse.json({
       links,

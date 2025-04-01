@@ -155,6 +155,8 @@ model Bookmarks {
   link      Links    @relation(fields: [linkId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
+
+  @@unique([userId, linkId])
 }
 
 model Tag {

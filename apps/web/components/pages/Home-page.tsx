@@ -12,13 +12,42 @@ import {
   Share2,
 } from "lucide-react";
 import Image from "next/image";
+import copy from "copy-to-clipboard";
+import { toast } from "sonner";
+import { handleBookmark } from "@/actions/bookmarks";
+import { useState } from "react";
 
 export const HomeLandingPage = () => {
   const { links, loading } = useLinks();
+  const [bookmarkedList, setBookmarkedList] = useState(
+    new Set(
+      links?.filter((link) => link.bookmark?.length > 0).map((link) => link.id),
+    ),
+  );
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  const toggleBookmark = async (linkId: string) => {
+    try {
+      await handleBookmark({ linkId });
+
+      setBookmarkedList((prev) => {
+        const newBookmarks = new Set(prev);
+        if (newBookmarks.has(linkId)) {
+          newBookmarks.delete(linkId);
+        } else {
+          newBookmarks.add(linkId);
+        }
+
+        return newBookmarks;
+      });
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update bookmark");
+    }
+  };
 
   console.log(links);
 
@@ -71,9 +100,20 @@ export const HomeLandingPage = () => {
             </div>
             <div className="relative flex mt-4 px-2 pt-4 justify-between text-gray-600">
               <Heart className="hover:text-foreground " />
-              <Bookmark className="hover:text-foreground" />
+              <Bookmark
+                className={`hover:text-foreground cursor-pointer ${bookmarkedList.has(link.id) ? "fill-current" : ""}`}
+                onClick={() => {
+                  toggleBookmark(link.id);
+                }}
+              />
               <Share2 className="hover:text-foreground" />
-              <LinkIcon className="hover:text-foreground" />
+              <LinkIcon
+                className="hover:text-foreground"
+                onClick={() => {
+                  copy(link.url);
+                  toast.info("Copied to Clipboard!");
+                }}
+              />
             </div>
           </Card>
         ))
