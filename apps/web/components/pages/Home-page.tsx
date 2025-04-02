@@ -15,15 +15,31 @@ import Image from "next/image";
 import copy from "copy-to-clipboard";
 import { toast } from "sonner";
 import { handleBookmark } from "@/actions/bookmarks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { handleLike } from "@/actions/likes";
 
 export const HomeLandingPage = () => {
   const { links, loading } = useLinks();
-  const [bookmarkedList, setBookmarkedList] = useState(
-    new Set(
-      links?.filter((link) => link.bookmark?.length > 0).map((link) => link.id),
-    ),
-  );
+  const [bookmarkedList, setBookmarkedList] = useState(new Set());
+  const [likedList, setLikedList] = useState(new Set());
+
+  useEffect(() => {
+    if (links) {
+      setBookmarkedList(
+        new Set(
+          links
+            ?.filter((link) => link.bookmark?.length > 0)
+            .map((link) => link.id),
+        ),
+      );
+
+      setLikedList(
+        new Set(
+          links?.filter((link) => link.like?.length > 0).map((link) => link.id),
+        ),
+      );
+    }
+  }, [links]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -46,6 +62,26 @@ export const HomeLandingPage = () => {
     } catch (err) {
       console.error(err);
       toast.error("Failed to update bookmark");
+    }
+  };
+
+  const toggleLike = async (linkId: string) => {
+    try {
+      await handleLike({ linkId });
+
+      setLikedList((prev) => {
+        const newLike = new Set(prev);
+        if (newLike.has(linkId)) {
+          newLike.delete(linkId);
+        } else {
+          newLike.add(linkId);
+        }
+
+        return newLike;
+      });
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to like");
     }
   };
 
@@ -99,7 +135,12 @@ export const HomeLandingPage = () => {
               />
             </div>
             <div className="relative flex mt-4 px-2 pt-4 justify-between text-gray-600">
-              <Heart className="hover:text-foreground " />
+              <Heart
+                className={`cursor-pointer ${likedList.has(link.id) ? "fill-red-700 text-red-700 hover:text-red-600 hover:fill-red-600" : "hover:text-foreground"}`}
+                onClick={() => {
+                  toggleLike(link.id);
+                }}
+              />
               <Bookmark
                 className={`hover:text-foreground cursor-pointer ${bookmarkedList.has(link.id) ? "fill-current" : ""}`}
                 onClick={() => {

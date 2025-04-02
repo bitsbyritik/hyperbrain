@@ -36,10 +36,16 @@ export async function GET() {
             linkId: true,
           },
         },
+        like: {
+          where: {
+            userId: userId,
+          },
+          select: {
+            linkId: true,
+          },
+        },
       },
     });
-
-    console.log(links);
 
     return NextResponse.json({
       links,
