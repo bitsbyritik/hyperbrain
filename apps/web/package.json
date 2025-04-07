@@ -13,7 +13,7 @@
     "@sendgrid/mail": "^8.1.4",
     "@workspace/ui": "workspace:*",
     "axios": "^1.8.4",
-    "better-auth": "^1.1.16",
+    "better-auth": "^1.2.5",
     "copy-to-clipboard": "^3.3.3",
     "developer-icons": "^5.2.8",
     "framer-motion": "^12.4.3",

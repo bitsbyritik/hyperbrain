@@ -1,8 +1,8 @@
-import { getMyLinks } from "@/actions/getLinks";
+import { getAllBookmarkLinks } from "@/actions/getLinks";
 import { LinksCard } from "../links-card";
 
-export const HomeLandingPage = async () => {
-  const { links } = await getMyLinks();
+export const BookmarkPage = async () => {
+  const { links } = await getAllBookmarkLinks();
   return (
     <div>
       {Array.isArray(links) && links.length > 0 ? (

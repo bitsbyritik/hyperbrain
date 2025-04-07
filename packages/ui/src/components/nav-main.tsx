@@ -27,15 +27,15 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton
-                tooltip={item.title}
-                className={`hover:bg-[#2D323B] transition-colors gap-3 ${pathname === item.url ? "bg-[#2D323B] text-foreground" : ""}`}
-              >
-                {item.icon && <item.icon />}
-                <a href={item.url}>
+              <a href={item.url}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  className={`hover:bg-[#2D323B] transition-colors gap-3 ${pathname === item.url ? "bg-[#2D323B] text-foreground" : ""}`}
+                >
+                  {item.icon && <item.icon />}
                   <span>{item.title}</span>
-                </a>
-              </SidebarMenuButton>
+                </SidebarMenuButton>
+              </a>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>

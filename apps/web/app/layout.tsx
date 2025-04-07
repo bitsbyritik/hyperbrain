@@ -1,8 +1,8 @@
 import "@workspace/ui/globals.css";
-import { Providers } from "@/components/providers";
 import { Toaster } from "sonner";
 import { cn } from "@workspace/ui/lib/utils";
 import { aeonik, inter, siteConfig } from "@/config";
+import { Providers } from "@/components/providers";
 
 export const metadata = siteConfig;
 

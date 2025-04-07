@@ -8,8 +8,9 @@ import {
   HomeIcon,
   Link,
   Sparkles,
+  Heart,
+  Bookmark,
 } from "lucide-react";
-
 import { NavMain } from "@workspace/ui/components/nav-main";
 import { NavSecondary } from "@workspace/ui/components/nav-secondary";
 import { NavUser } from "@workspace/ui/components/nav-user";
@@ -26,6 +27,7 @@ import {
 } from "@workspace/ui/components/sidebar";
 import { useSession } from "@/lib/auth-client";
 import { redirect, usePathname } from "next/navigation";
+import { NavCollapsible } from "@workspace/ui/components/nav-collapsible";
 
 const navData = {
   navMain: [
@@ -43,6 +45,23 @@ const navData = {
       title: "My Collections",
       url: "/mycollections",
       icon: FolderIcon,
+    },
+  ],
+  navSaves: [
+    {
+      title: "Bookmarks",
+      items: [
+        {
+          title: "Quick Saves",
+          url: "/bookmarks",
+          icon: Bookmark,
+        },
+        {
+          title: "Top Picks",
+          url: "/liked",
+          icon: Heart,
+        },
+      ],
     },
   ],
   navSecondary: [
@@ -93,6 +112,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={navData.navMain} pathname={pathname} />
+        <NavCollapsible items={navData.navSaves} pathname={pathname} />
         <NavSecondary items={navData.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

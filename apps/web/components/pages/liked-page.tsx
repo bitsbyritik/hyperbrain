@@ -1,8 +1,8 @@
-import { getMyLinks } from "@/actions/getLinks";
+import { getAllLikedLinks } from "@/actions/getLinks";
 import { LinksCard } from "../links-card";
 
-export const HomeLandingPage = async () => {
-  const { links } = await getMyLinks();
+export const LikedPage = async () => {
+  const { links } = await getAllLikedLinks();
   return (
     <div>
       {Array.isArray(links) && links.length > 0 ? (
