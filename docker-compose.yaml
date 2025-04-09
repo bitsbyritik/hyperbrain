@@ -1,6 +1,8 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     container_name: hyperbrain
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/hyperbrain
@@ -39,3 +41,4 @@ services:
 
 volumes:
   postgres-data:
+    external: false
