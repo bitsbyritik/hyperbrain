@@ -1,0 +1,23 @@
+#name: continuous deployment hyperbrain
+#on:
+#  push:
+#    branches: [main]
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: checkout the code
+#        uses: actions/checkout@v2
+#      - name: docker login
+#        uses: docker/login-action@v2
+#        with:
+#          username: ${{ secrets.dockerhub_username }}
+#         password: ${{ secrets.dockerhub_token }}
+#
+#      - name: build and push
+#        uses: docker/build-push-actions@v4
+#        with:
+#          context: .
+#          file: ./dockerfile.prod
+#          push: true
+#          tags: bitsbyritik/hyperbrain:{{ github.sha }
