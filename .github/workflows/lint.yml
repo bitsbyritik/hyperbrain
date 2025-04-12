@@ -23,7 +23,7 @@ jobs:
           version: 9
 
       - name: install dependencies
-        uses: pnpm install
+        run: pnpm install
 
       - name: Run Eslint
-        uses: pnpm lint
+        run: pnpm run lint
