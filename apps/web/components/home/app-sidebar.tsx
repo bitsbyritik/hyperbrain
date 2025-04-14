@@ -10,6 +10,8 @@ import {
   Sparkles,
   Heart,
   Bookmark,
+  SearchCode,
+  SearchIcon,
 } from "lucide-react";
 import { NavMain } from "@workspace/ui/components/nav-main";
 import { NavSecondary } from "@workspace/ui/components/nav-secondary";
@@ -28,6 +30,7 @@ import {
 import { useSession } from "@/lib/auth-client";
 import { redirect, usePathname } from "next/navigation";
 import { NavCollapsible } from "@workspace/ui/components/nav-collapsible";
+import { title } from "motion/react-m";
 
 const navData = {
   navMain: [
@@ -57,7 +60,7 @@ const navData = {
           icon: Bookmark,
         },
         {
-          title: "Top Picks",
+          title: "My Picks",
           url: "/liked",
           icon: Heart,
         },

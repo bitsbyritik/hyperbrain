@@ -95,7 +95,7 @@ export const LinksCard = ({ links }: { links: any[] }) => {
             </span>
           </div>
 
-          <p className="text-sm text-gray-600 line-clamp-3 text-ellipsis overflow-hidden h-14">
+          <p className="text-sm text-[#a6a6a69c] line-clamp-3 text-ellipsis overflow-hidden h-14">
             {link.metadata?.description || "No description available."}
           </p>
           <div className="p-4 w-full relative h-44">
@@ -115,7 +115,7 @@ export const LinksCard = ({ links }: { links: any[] }) => {
               className="rounded-xl mt-4 object-cover"
             />
           </div>
-          <div className="relative flex mt-4 px-2 pt-4 justify-between text-gray-600">
+          <div className="relative flex mt-4 px-2 pt-4 justify-between text-[#a6a6a6b0]">
             <Heart
               className={`cursor-pointer ${likedList.has(link.id) ? "fill-red-700 text-red-700 hover:text-red-600 hover:fill-red-600" : "hover:text-foreground"}`}
               onClick={() => {
@@ -123,7 +123,7 @@ export const LinksCard = ({ links }: { links: any[] }) => {
               }}
             />
             <Bookmark
-              className={`hover:text-foreground cursor-pointer ${bookmarkedList.has(link.id) ? "fill-current" : ""}`}
+              className={`cursor-pointer ${bookmarkedList.has(link.id) ? "fill-[#945a2e] text-[#945a2e] hover:text-[#c57c44] hover:fill-[#c57c44]" : "hover:text-foreground"}`}
               onClick={() => {
                 toggleBookmark(link.id);
               }}

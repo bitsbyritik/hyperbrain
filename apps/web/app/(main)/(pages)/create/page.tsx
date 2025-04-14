@@ -5,54 +5,38 @@ import { CreateLink } from "@/components/create/create-link";
 import { CreateSpace } from "@/components/create/create-space";
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+const types = ["link", "collection", "space"] as const;
 
 export default function Create() {
-  const [currCreate, setCurrCreate] = useState("link");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type") || "link";
+
+  const setType = (newType: string) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("type", newType);
+    router.push(url.toString(), { shallow: true });
+  };
 
   return (
     <div>
       <div className="w-full h-14 border-b border-border flex flex-row items-center px-2 gap-2">
-        <div>
+        {types.map((t) => (
           <Button
+            key={t}
             variant={"ghost"}
-            className={cn("rounded-2xl", currCreate === "link" && "bg-accent")}
-            onClick={() => {
-              setCurrCreate("link");
-            }}
+            className={cn("rounded-2xl", type === t && "bg-accent")}
+            onClick={() => setType(t)}
           >
-            New link
+            New {t}
           </Button>
-        </div>
-        <div>
-          <Button
-            variant={"ghost"}
-            className={cn(
-              "rounded-2xl",
-              currCreate === "collection" && "bg-accent",
-            )}
-            onClick={() => {
-              setCurrCreate("collection");
-            }}
-          >
-            New collection
-          </Button>
-        </div>
-        <div>
-          <Button
-            variant={"ghost"}
-            className={cn("rounded-2xl", currCreate === "space" && "bg-accent")}
-            onClick={() => {
-              setCurrCreate("space");
-            }}
-          >
-            New space
-          </Button>
-        </div>
+        ))}
       </div>
-      {currCreate === "link" && <CreateLink />}
-      {currCreate === "collection" && <CreateCollection />}
-      {currCreate === "space" && <CreateSpace />}
+      {type === "link" && <CreateLink />}
+      {type === "collection" && <CreateCollection />}
+      {type === "space" && <CreateSpace />}
     </div>
   );
 }

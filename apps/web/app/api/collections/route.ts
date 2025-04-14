@@ -1,6 +1,5 @@
 import { auth } from "@/lib/auth";
 import prisma from "@workspace/db/client";
-import { error } from "console";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { Input } from "@workspace/ui/components/input";
 import { cn } from "@workspace/ui/lib/utils";
 import { SelectCollection } from "./select-collection";
@@ -6,18 +8,28 @@ import { toast } from "sonner";
 import axios from "axios";
 import { useState } from "react";
 import { Textarea } from "@workspace/ui/components/textarea";
+import { useRouter } from "next/navigation";
+import { SelectSpaces } from "./select-spaces";
 
 export const CreateLink = () => {
   const [url, setUrl] = useState("");
+  const router = useRouter();
   const handleCreateLink = async () => {
     try {
+      toast.loading("Adding Link...");
       const response = await axios.post("/api/links", {
         url: url,
       });
 
-      console.log(response.data);
+      toast.dismiss();
+      if (response.data.status === 200) {
+        toast.success("Link Added");
+      }
+
+      router.push("/mylinks");
     } catch (err) {
       console.error(err);
+      toast.dismiss();
       toast.error("Failed!");
     }
   };
@@ -29,9 +41,9 @@ export const CreateLink = () => {
           <Input
             type="url"
             required
-            placeholder="Enter the url"
+            placeholder="What's the url ?"
             className={cn(
-              "peer py-6 rounded-xl text-base placeholder:text-foreground focus:bg-transparent focus:text-foreground",
+              "peer py-6 rounded-xl text-base bg-card placeholder:text-foreground focus:bg-transparent focus:text-foreground",
             )}
             onChange={(e) => {
               setUrl(e.target.value);
@@ -39,16 +51,26 @@ export const CreateLink = () => {
           />
         </div>
         <Textarea
-          placeholder="Share your thoughts"
+          placeholder="Add something about links ?"
           className={cn(
-            "peer p-4 h-28 rounded-xl text-base placeholder:text-foreground focus:bg-card focus:text-foreground",
+            "peer p-4 h-28 rounded-xl text-base placeholder:text-foreground bg-card focus:bg-transparent focus:text-foreground",
           )}
         />
-        <SelectCollection />
+        <div className="flex gap-8 flex-col">
+          <SelectCollection />
+          <SelectSpaces />
+        </div>
 
-        <Button className="w-80" onClick={handleCreateLink}>
-          Create
-        </Button>
+        <div className="flex justify-end pt-4">
+          <Button
+            variant={"create"}
+            className="w-36"
+            onClick={handleCreateLink}
+            disabled={url === ""}
+          >
+            Add Link
+          </Button>
+        </div>
       </div>
     </div>
   );

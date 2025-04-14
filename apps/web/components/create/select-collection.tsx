@@ -17,7 +17,7 @@ export function SelectCollection() {
 
   return (
     <Select>
-      <SelectTrigger className="w-64 h-12 rounded-xl bg-accent text-foreground">
+      <SelectTrigger className="w-64 h-12 rounded-xl bg-card text-foreground">
         <Files />
         <SelectValue
           placeholder="Select Collection"

@@ -12,17 +12,14 @@ import {
 import { Files } from "lucide-react";
 import { useCollections } from "@/hooks/useCollections";
 
-export function SelectCollection() {
+export function SelectSpaces() {
   const { collections } = useCollections();
 
   return (
     <Select>
-      <SelectTrigger className="w-64 h-12 rounded-xl bg-accent text-foreground">
+      <SelectTrigger className="w-64 h-12 rounded-xl bg-card text-foreground">
         <Files />
-        <SelectValue
-          placeholder="Select Collection"
-          className="text-foreground"
-        />
+        <SelectValue placeholder="Select Space" className="text-foreground" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>

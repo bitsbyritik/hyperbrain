@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
 
     if (!parsedData.success) {
       return NextResponse.json({
-        error: "Data validatiobn failed!",
+        error: "Data validation failed!",
         status: 400,
       });
     }
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-      messgae: "successfully created",
+      message: "successfully created",
       status: 200,
     });
   } catch (err) {
