@@ -10,8 +10,9 @@ import {
   Sparkles,
   Heart,
   Bookmark,
-  SearchCode,
+  PlusIcon,
   SearchIcon,
+  Orbit,
 } from "lucide-react";
 import { NavMain } from "@workspace/ui/components/nav-main";
 import { NavSecondary } from "@workspace/ui/components/nav-secondary";
@@ -30,7 +31,7 @@ import {
 import { useSession } from "@/lib/auth-client";
 import { redirect, usePathname } from "next/navigation";
 import { NavCollapsible } from "@workspace/ui/components/nav-collapsible";
-import { title } from "motion/react-m";
+import axios from "axios";
 
 const navData = {
   navMain: [
@@ -82,6 +83,33 @@ const navData = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [spacesData, setSpacesData] = React.useState({
+    mySpaces: [
+      {
+        title: "My Spaces",
+        items: [
+          {
+            title: "Create Space",
+            url: "/create?type=space",
+            icon: PlusIcon,
+          },
+        ],
+      },
+    ],
+    JoinedSpaces: [
+      {
+        title: "Joined Spaces",
+        items: [
+          {
+            title: "Find Space",
+            url: "/bookmarks",
+            icon: SearchIcon,
+          },
+        ],
+      },
+    ],
+  });
+
   const { data: session } = useSession();
 
   const userData = {
@@ -89,6 +117,50 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     email: session?.user?.email || "user@email.com",
     avatar: session?.user?.image || "U",
   };
+
+  React.useEffect(() => {
+    if (!session?.user?.id) return;
+
+    const fetchSpaces = async () => {
+      try {
+        const res = await axios.get("/api/spaces");
+        const data = await res.data;
+
+        setSpacesData((prev) => ({
+          mySpaces: [
+            {
+              title: "My Spaces",
+              items: [
+                ...prev.mySpaces[0]?.items,
+                ...data.mySpaces?.map((space: any) => ({
+                  title: space.name,
+                  url: `/@${space.handle}`,
+                  image: space.image,
+                })),
+              ],
+            },
+          ],
+          JoinedSpaces: [
+            {
+              title: "Joined Spaces",
+              items: [
+                ...prev.JoinedSpaces[0]?.items,
+                ...data.joinedSpaces?.map((space: any) => ({
+                  title: space.name,
+                  url: `/@${space.handle}`,
+                  image: space.image,
+                })),
+              ],
+            },
+          ],
+        }));
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchSpaces();
+  }, [session?.user?.id]);
 
   const pathname = usePathname();
 
@@ -115,6 +187,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={navData.navMain} pathname={pathname} />
+        <NavCollapsible items={spacesData.mySpaces} pathname={pathname} />
+        <NavCollapsible items={spacesData.JoinedSpaces} pathname={pathname} />
         <NavCollapsible items={navData.navSaves} pathname={pathname} />
         <NavSecondary items={navData.navSecondary} className="mt-auto" />
       </SidebarContent>

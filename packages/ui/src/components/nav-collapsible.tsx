@@ -16,6 +16,11 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
 } from "@workspace/ui/components/collapsible";
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+} from "@workspace/ui/components/avatar";
 
 export function NavCollapsible({
   items,
@@ -27,6 +32,7 @@ export function NavCollapsible({
       title: string;
       url: string;
       icon?: LucideIcon;
+      image?: string;
     }[];
   }[];
   pathname: string;
@@ -45,10 +51,12 @@ export function NavCollapsible({
               asChild
               className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
             >
-              <CollapsibleTrigger>
-                {section.title}{" "}
-                <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
-              </CollapsibleTrigger>
+              <div className="flex justify-between">
+                {section.title}
+                <CollapsibleTrigger>
+                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                </CollapsibleTrigger>
+              </div>
             </SidebarGroupLabel>
             <CollapsibleContent>
               <SidebarGroupContent className="flex flex-col gap-2">
@@ -61,6 +69,12 @@ export function NavCollapsible({
                           className={`hover:bg-[#2D323B] transition-colors gap-3 ${pathname === item.url ? "bg-[#2D323B] text-foreground" : ""}`}
                         >
                           {item.icon && <item.icon />}
+                          {item.image && (
+                            <Avatar className="w-4 h-4">
+                              <AvatarImage src={item.image} alt={item.title} />
+                              <AvatarFallback>{item.title[0]}</AvatarFallback>
+                            </Avatar>
+                          )}
                           <span>{item.title}</span>
                         </SidebarMenuButton>
                       </a>

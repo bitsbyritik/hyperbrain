@@ -4,6 +4,62 @@ import { spaceSchema } from "@workspace/schema/zod";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET() {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      return NextResponse.json({
+        error: "Unauthorized",
+        status: 401,
+      });
+    }
+
+    const userId = session.user.id;
+
+    const mySpaces = await prisma.space.findMany({
+      where: {
+        ownerId: userId,
+      },
+      select: {
+        name: true,
+        handle: true,
+        image: true,
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+
+    const joinedSpaces = await prisma.space.findMany({
+      where: {
+        followers: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+      select: {
+        name: true,
+        handle: true,
+        image: true,
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
+
+    return NextResponse.json({ mySpaces, joinedSpaces });
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json({
+      status: 500,
+    });
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const session = await auth.api.getSession({
@@ -51,5 +107,8 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     console.log(err);
+    return NextResponse.json({
+      status: 500,
+    });
   }
 }
