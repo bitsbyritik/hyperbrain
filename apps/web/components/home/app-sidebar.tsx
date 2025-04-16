@@ -12,7 +12,6 @@ import {
   Bookmark,
   PlusIcon,
   SearchIcon,
-  Orbit,
 } from "lucide-react";
 import { NavMain } from "@workspace/ui/components/nav-main";
 import { NavSecondary } from "@workspace/ui/components/nav-secondary";
@@ -134,7 +133,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 ...prev.mySpaces[0]?.items,
                 ...data.mySpaces?.map((space: any) => ({
                   title: space.name,
-                  url: `/@${space.handle}`,
+                  url: `/space/${space.handle}`,
                   image: space.image,
                 })),
               ],
@@ -147,7 +146,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 ...prev.JoinedSpaces[0]?.items,
                 ...data.joinedSpaces?.map((space: any) => ({
                   title: space.name,
-                  url: `/@${space.handle}`,
+                  url: `/space/${space.handle}`,
                   image: space.image,
                 })),
               ],
