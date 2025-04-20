@@ -18,16 +18,7 @@ export async function GET() {
 
     const userId = session.user.id;
 
-    const collections = await prisma.collections.findMany({
-      where: {
-        ownerId: userId,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-
-    return NextResponse.json({ collections });
+    return NextResponse.json({});
   } catch (err) {
     console.error(err);
     return NextResponse.json(

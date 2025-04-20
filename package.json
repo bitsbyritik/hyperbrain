@@ -8,7 +8,7 @@
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "dev:docker": "pnpm run prisma:docker && pnpm run dev",
-    "prisma:docker": "cd packages/db && pnpx prisma migrate dev --skip-seed && pnpx prisma generate"
+    "prisma:docker": "cd packages/db && pnpx prisma migrate deploy && pnpx prisma generate"
   },
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",

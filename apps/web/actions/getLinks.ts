@@ -90,7 +90,7 @@ export const getAllLikedLinks = async () => {
       createdAt: "desc",
     },
     include: {
-      Links: {
+      link: {
         include: {
           bookmark: {
             where: {
@@ -113,7 +113,7 @@ export const getAllLikedLinks = async () => {
     },
   });
 
-  const links = likedLinks.map((link) => link.Links);
+  const links = likedLinks.map((link) => link.link);
 
   return { links };
 };
