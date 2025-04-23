@@ -1,5 +1,6 @@
 import prisma from "@workspace/db/client";
 import { authSession } from "./session";
+import { slugify } from "@/lib/slugify";
 
 export const getMyLinks = async () => {
   const { session } = await authSession();
@@ -115,5 +116,49 @@ export const getAllLikedLinks = async () => {
 
   const links = likedLinks.map((link) => link.link);
 
+  return { links };
+};
+
+export const getCollectionLinks = async ({
+  collectionName,
+}: {
+  collectionName: string;
+}) => {
+  const { session } = await authSession();
+
+  const userId = session?.user.id;
+
+  const slug = slugify(collectionName);
+
+  const collectionsLinks = await prisma.collections.findMany({
+    where: {
+      userId: userId,
+      slug: slug,
+    },
+    include: {
+      links: {
+        include: {
+          bookmark: {
+            where: {
+              userId: userId,
+            },
+            select: {
+              linkId: true,
+            },
+          },
+          like: {
+            where: {
+              userId: userId,
+            },
+            select: {
+              linkId: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const links = collectionsLinks.map((link) => link.links);
   return { links };
 };

@@ -14,6 +14,10 @@ export async function getAllCollectionName() {
     },
     select: {
       name: true,
+      id: true,
+    },
+    orderBy: {
+      name: "asc",
     },
   });
 

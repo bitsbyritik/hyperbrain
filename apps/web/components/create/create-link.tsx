@@ -13,12 +13,15 @@ import { SelectSpaces } from "./select-spaces";
 
 export const CreateLink = () => {
   const [url, setUrl] = useState("");
+  const [selectedCollection, setSelectedCollection] = useState("");
+
   const router = useRouter();
   const handleCreateLink = async () => {
     try {
       toast.loading("Adding Link...");
       const response = await axios.post("/api/links", {
         url: url,
+        collectionId: selectedCollection,
       });
 
       toast.dismiss();
@@ -33,6 +36,8 @@ export const CreateLink = () => {
       toast.error("Failed!");
     }
   };
+
+  console.log(selectedCollection);
 
   return (
     <div>
@@ -57,7 +62,7 @@ export const CreateLink = () => {
           )}
         />
         <div className="flex gap-8 flex-col">
-          <SelectCollection />
+          <SelectCollection onSelectAction={setSelectedCollection} />
           <SelectSpaces />
         </div>
 

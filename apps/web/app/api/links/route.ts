@@ -112,40 +112,40 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      const contentType = detectContentType(metaData, newLink.url);
-      console.log(contentType);
-      const slug = slugify(contentType);
-      const collectionName =
-        contentType.charAt(0).toUpperCase() + contentType.slice(1);
+      if (!newLink.collectionId || newLink.collectionId === "") {
+        const contentType = detectContentType(metaData, newLink.url);
+        console.log(contentType);
+        const slug = slugify(contentType);
+        const collectionName =
+          contentType.charAt(0).toUpperCase() + contentType.slice(1);
 
-      let collection = await prisma.collections.findFirst({
-        where: {
-          userId,
-          slug,
-        },
-      });
-
-      if (!collection) {
-        collection = await prisma.collections.create({
-          data: {
-            name: collectionName,
-            slug,
+        let collection = await prisma.collections.findFirst({
+          where: {
             userId,
+            slug,
+          },
+        });
+
+        if (!collection) {
+          collection = await prisma.collections.create({
+            data: {
+              name: collectionName,
+              slug,
+              userId,
+            },
+          });
+        }
+
+        await prisma.links.update({
+          where: {
+            userId: userId,
+            id: newLink.id,
+          },
+          data: {
+            collectionId: collection.id,
           },
         });
       }
-
-      await prisma.links.update({
-        where: {
-          userId: userId,
-          id: newLink.id,
-        },
-        data: {
-          collectionId: collection.id,
-        },
-      });
-
-      console.log(collection);
     }
 
     return NextResponse.json({

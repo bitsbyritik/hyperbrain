@@ -20,6 +20,9 @@ services:
             - node_modules/
         - action: rebuild
           path: package.json
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
 
   db:
     container_name: db

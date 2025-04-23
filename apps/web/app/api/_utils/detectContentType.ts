@@ -3,11 +3,12 @@ import { Metadata } from "unfurl.js/dist/types";
 export function detectContentType(
   meta: Metadata,
   url: string,
-): "article" | "video" | "pdf" | "others" {
+): "article" | "video" | "music" | "pdf" | "others" {
   const ogType = meta?.open_graph?.type?.toLowerCase();
   const currUrl = url.toLowerCase();
 
   if (currUrl.endsWith(".pdf")) return "pdf";
+  if (currUrl.includes("music")) return "music";
   if (
     ogType?.includes("video") ||
     currUrl.includes("youtube") ||

@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 import {
@@ -10,13 +12,39 @@ import {
   SelectValue,
 } from "@workspace/ui/components/select";
 import { Files } from "lucide-react";
-import { useCollections } from "@/hooks/useCollections";
+import { useState, useEffect } from "react";
+import { getAllCollectionName } from "@/actions/collections";
 
-export function SelectCollection() {
-  const { collections } = useCollections();
+type SelectCollectionProps = {
+  onSelectAction: (collection: string) => void;
+};
+
+type Collection = {
+  id: string;
+  name: string;
+};
+
+export function SelectCollection({ onSelectAction }: SelectCollectionProps) {
+  const [collections, setCollection] = useState<Collection[]>([]);
+  const [selected, setSelected] = useState<string>("");
+
+  useEffect(() => {
+    const getCollections = async () => {
+      const res = await getAllCollectionName();
+      const list = res.collectionList;
+      setCollection(list);
+    };
+
+    getCollections();
+  }, []);
+
+  const handleChange = (value: string) => {
+    setSelected(value);
+    onSelectAction(value);
+  };
 
   return (
-    <Select>
+    <Select value={selected} onValueChange={handleChange}>
       <SelectTrigger className="w-64 h-12 rounded-xl bg-card text-foreground">
         <Files />
         <SelectValue
@@ -28,11 +56,10 @@ export function SelectCollection() {
         <SelectGroup>
           <SelectLabel>Select Collection</SelectLabel>
           {collections.map((collection) => (
-            <SelectItem key={collection.id} value={collection.name}>
+            <SelectItem key={collection.id} value={collection.id}>
               {collection.name}
             </SelectItem>
           ))}
-          <SelectItem value="new">Create New</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
