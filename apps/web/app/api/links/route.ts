@@ -88,13 +88,12 @@ export async function POST(req: NextRequest) {
     }
 
     const { url, thoughts, collectionId, spaceId } = parsedData.data;
-
     const newLink = await prisma.links.create({
       data: {
         userId: userId,
         url: url,
         thoughts: thoughts,
-        collectionId: collectionId,
+        collectionId: collectionId ? collectionId : null,
         spaceId: spaceId,
       },
     });
@@ -112,9 +111,9 @@ export async function POST(req: NextRequest) {
         },
       });
 
-      if (!newLink.collectionId || newLink.collectionId === "") {
+      if (!newLink.collectionId) {
         const contentType = detectContentType(metaData, newLink.url);
-        console.log(contentType);
+
         const slug = slugify(contentType);
         const collectionName =
           contentType.charAt(0).toUpperCase() + contentType.slice(1);
@@ -146,6 +145,9 @@ export async function POST(req: NextRequest) {
           },
         });
       }
+    } else {
+      // Handle case where metadata is not available
+      console.error(`Metadata fetching failed for URL: ${url}`);
     }
 
     return NextResponse.json({
