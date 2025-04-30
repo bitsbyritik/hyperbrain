@@ -6,7 +6,13 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"],
-      "env": ["GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET", "BETTER_AUTH_URL"]
+      "env": [
+        "GITHUB_CLIENT_ID",
+        "GITHUB_CLIENT_SECRET",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET",
+        "BETTER_AUTH_URL"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
