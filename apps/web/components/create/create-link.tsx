@@ -21,7 +21,7 @@ export const CreateLink = () => {
       toast.loading("Adding Link...");
       const response = await axios.post("/api/links", {
         url: url,
-        collectionId: selectedCollection,
+        collectionId: selectedCollection === "all" ? "" : selectedCollection,
       });
 
       toast.dismiss();

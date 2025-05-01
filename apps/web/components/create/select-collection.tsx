@@ -55,6 +55,9 @@ export function SelectCollection({ onSelectAction }: SelectCollectionProps) {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Select Collection</SelectLabel>
+          <SelectItem key={0} value={"all"}>
+            All
+          </SelectItem>
           {collections.map((collection) => (
             <SelectItem key={collection.id} value={collection.id}>
               {collection.name}
