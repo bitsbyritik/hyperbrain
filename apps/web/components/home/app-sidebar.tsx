@@ -70,7 +70,7 @@ const navData = {
   navSecondary: [
     {
       title: "Chat with AI Brain",
-      url: "#",
+      url: "/chat-with-brain",
       icon: Sparkles,
     },
     {
